@@ -10,6 +10,6 @@ public interface TransactionService {
     double getTotalTransactionAmount();
     double getTotalTransactionAmountSentBy(String senderFullName);
     double getMaxTransactionAmount();
-    Map<String, Object> getTransactionsByBeneficiaryName();
-    List<Object> getTop3TransactionsByAmount();
+    Map<String, List<Transaction>> getTransactionsByBeneficiaryName();
+    List<Transaction> getTop3TransactionsByAmount();
 }

@@ -2,6 +2,8 @@ package com.smallworld.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smallworld.exception.CustomException;
+import com.smallworld.exception.TransactionErrors;
 import com.smallworld.model.Transaction;
 import com.smallworld.service.TransactionService;
 import jakarta.annotation.PostConstruct;
@@ -17,6 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
+import static com.smallworld.exception.TransactionErrors.TRANSACTION_FILE_NOT_LOADED;
+
 @RequiredArgsConstructor
 @Slf4j
 @Component
@@ -26,6 +30,7 @@ public class TransactionDataReader {
     private Resource transactionFileData;
 
     private final TransactionService transactionService;
+
 
     public List<Transaction> readTransactionsData() {
         try {
@@ -38,15 +43,15 @@ public class TransactionDataReader {
         }
     }
     @PostConstruct
-    public void setTransactions() {
+    public void setTransactions() throws CustomException {
 
        try {
            transactionService.setTransactionsList(readTransactionsData());
            log.info("Transaction file loaded successfully");
        }
        catch (Exception e){
-           e.printStackTrace();
            log.error("Transactions file could not be loaded!");
+           throw TRANSACTION_FILE_NOT_LOADED.asException();
        }
 
     }
