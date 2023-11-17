@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TransactionService {
+    List<Transaction> getTotalTransactions();
     void setTransactionsList(List<Transaction> transactionsList);
     double getTotalTransactionAmount();
     double getTotalTransactionAmountSentBy(String senderFullName);

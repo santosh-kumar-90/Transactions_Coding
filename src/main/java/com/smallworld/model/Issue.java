@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Issue {
-    private Long issueId;
+    private Integer issueId;
     private Boolean issueSolved;
     private String issueMessage;
 }
