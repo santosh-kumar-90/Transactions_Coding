@@ -1,5 +1,6 @@
 package com.smallworld.service.impl;
 
+import com.smallworld.model.Issue;
 import com.smallworld.model.Transaction;
 import com.smallworld.service.ClientService;
 import com.smallworld.service.TransactionService;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,10 +41,18 @@ public class ClientServiceImpl implements ClientService {
                 .anyMatch(transaction -> hasOpenIssue(transaction, clientFullName));
     }
     private boolean hasOpenIssue(Transaction transaction, String clientFullName) {
-        return (clientFullName.equals(transaction.getSenderFullName()) ||
-                clientFullName.equals(transaction.getBeneficiaryFullName()))
-                && transaction.getIssues().stream()
-                .anyMatch(issue -> issue.getIssueId() != null
-                && !issue.getIssueSolved());
-    };
+        if (transaction != null &&
+                (clientFullName.equals(transaction.getSenderFullName()) ||
+                        clientFullName.equals(transaction.getBeneficiaryFullName()))) {
+            List<Issue> issues = transaction.getIssues();
+            if (issues != null) {
+                return issues.stream()
+                        .anyMatch(issue -> issue != null &&
+                                issue.getIssueId() != null &&
+                                !issue.getIssueSolved());
+            }
+        }
+        return false;
+    }
+
 }

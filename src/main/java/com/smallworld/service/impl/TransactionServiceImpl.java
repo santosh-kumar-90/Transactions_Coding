@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    public static List<Transaction> TRANSACTIONS_LIST;
+    public static  List<Transaction> TRANSACTIONS_LIST;
 
     @Override
     public List<Transaction> getTotalTransactions() {
